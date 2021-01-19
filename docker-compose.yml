@@ -7,10 +7,13 @@ services:
     restart: unless-stopped
     labels:
       traefik.enable: "true"
-      traefik.http.routers.moynihan.rule: "Host(`moynihan.io`)"
+      traefik.http.routers.moynihan.rule: "Host(`moynihan.io`) || Host(`www.moynihan.io`)"
       traefik.http.routers.moynihan.entrypoints: "web"
       traefik.http.services.moynihan-service.loadbalancer.server.port: "80"
       traefik.http.routers.moynihan.service: "moynihan-service"
+      treafik.http.middlewares.moynihan-redirect.redirectregex.regex: "^(https?://)www.(.*)$$"
+      traefik.http.middlewares.moynihan-redirect.redirectregex.replacement: "$${1}$${2}"
+      traefik.http.routers.moynihan.middlewares: "moynihan-redirect"
       traefik.docker.network: "traefik"
   
   
@@ -35,3 +38,11 @@ services:
       traefik.docker.network: "traefik"
       traefik.http.middlewares.traefik-auth.basicauth.usersfile: "/shadow"
       traefik.http.routers.traefik.middlewares: "traefik-auth@docker"
+      # global redirect to https
+      traefik.http.routers.http-catchall.rule: "hostregexp(`{host:.+}`)"
+      traefik.http.routers.http-catchall.entrypoints: "web"
+      traefik.http.routers.http-catchall.middlewares: "redirect-to-https"
+
+      # middleware redirect
+      traefik.http.middlewares.redirect-to-https.redirectscheme.scheme: "https"
+
