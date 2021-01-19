@@ -2,13 +2,23 @@ version: "3"
 
 services:
   moynihan:
+    container_name: "moynihan"
     image: moynihan/moynihan.io:latest
     restart: unless-stopped
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.moynihan.rule: "Host(`moynihan.io`)"
+      traefik.http.routers.moynihan.entrypoints: "web"
+      traefik.http.services.moynihan-service.loadbalancer.server.port: "80"
+      traefik.http.routers.moynihan.service: "moynihan-service"
+      traefik.docker.network: "traefik"
+  
+  
 
   traefik:
     container_name: traefik
     image: traefik:v2.3
-    command: --api.insecure=true --providers.docker --certificatesresolvers.letsencrypt.acme.email=encrypt@moynihan.io --certificatesresolvers.letsencrypt.acme.storage=/traefik/acme.json --certificatesresolvers.letsencrypt.acme.httpchallenge.entrypoint=web --entryPoints.web.address=:80 --entryPoints.web-secure.address=:443
+    command: --api.insecure=true --providers.docker --entryPoints.web.address=:80 
     ports:
       - "80:80"
     volumes:
@@ -19,7 +29,7 @@ services:
     labels:
       traefik.enable: "true"
       traefik.http.routers.traefik.rule: "Host(`traefik-netsoc.moynihan.io`)"
-      traefik.http.routers.traefik.entrypoints: "web-secure"
+      traefik.http.routers.traefik.entrypoints: "web"
       traefik.http.services.traefik-service.loadbalancer.server.port: "8080"
       traefik.http.routers.traefik.service: "traefik-service"
       traefik.docker.network: "traefik"
