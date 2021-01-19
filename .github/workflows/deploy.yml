@@ -1,7 +1,11 @@
 name: Repository Dispatch
+
 on:
+  push:
+    branches: [master]
   repository_dispatch:
     types: [deploy]
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
