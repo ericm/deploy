@@ -17,6 +17,7 @@ services:
       traefik.docker.network: "traefik"
   
   portainer:
+    container_name: portainer
     image: portainer/portainer
     command: -H unix:///var/run/docker.sock
     restart: always
