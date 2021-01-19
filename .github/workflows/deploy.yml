@@ -1,0 +1,19 @@
+name: Repository Dispatch
+on:
+  repository_dispatch:
+    types: [deploy]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy remote ssh
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USER }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: | 
+            cd /root/deploy
+            git pull
+            docker-compose up -d
