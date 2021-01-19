@@ -58,4 +58,6 @@ services:
 
       # middleware redirect
       traefik.http.middlewares.redirect-to-https.redirectscheme.scheme: "https"
-
+      
+volumes:
+  portainer_data:
