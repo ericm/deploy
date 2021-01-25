@@ -30,6 +30,12 @@ services:
       traefik.http.routers.portainer.entrypoints: "web"
       traefik.http.services.portainer-service.loadbalancer.server.port: "9000"
       traefik.http.routers.portainer.service: "portainer-service"
+      
+      traefik.http.routers.portainer-socket.rule: "Host(`portainer-socket.moynihan.io`)"
+      traefik.http.routers.portainer-socket.entrypoints: "web"
+      traefik.http.services.portainer-socket-service.loadbalancer.server.port: "8000"
+      traefik.http.routers.portainer-socket.service: "portainer-socket-service"
+      
       traefik.docker.network: "traefik"
 
   traefik:
