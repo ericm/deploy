@@ -45,6 +45,8 @@ services:
       - GEOLICENSE=${GEOLICENSE}
       - PORT=1818
     restart: always
+    ports:
+      - 1818:1818
     labels:
       traefik.enable: "true"
       traefik.http.routers.stonks.rule: "Host(`stonks.icu`)"
