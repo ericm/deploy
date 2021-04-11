@@ -43,12 +43,13 @@ services:
     image: moynihan/stonks.icu
     environment:
       - GEOLICENSE=${GEOLICENSE}
+      - PORT=1818
     restart: always
     labels:
       traefik.enable: "true"
       traefik.http.routers.stonks.rule: "Host(`stonks.icu`)"
       traefik.http.routers.stonks.entrypoints: "web"
-      traefik.http.services.stonks-service.loadbalancer.server.port: "8080"
+      traefik.http.services.stonks-service.loadbalancer.server.port: "1818"
       traefik.http.routers.stonks.service: "stonks-service"
       traefik.docker.network: "traefik"
 
