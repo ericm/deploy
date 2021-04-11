@@ -15,7 +15,7 @@ services:
       traefik.http.middlewares.moynihan-redirect.redirectregex.replacement: "$${1}$${2}"
       traefik.http.routers.moynihan.middlewares: "moynihan-redirect"
       traefik.docker.network: "traefik"
-  
+
   portainer:
     container_name: portainer
     image: portainer/portainer
@@ -30,18 +30,30 @@ services:
       traefik.http.routers.portainer.entrypoints: "web"
       traefik.http.services.portainer-service.loadbalancer.server.port: "9000"
       traefik.http.routers.portainer.service: "portainer-service"
-      
+
       traefik.http.routers.portainer-socket.rule: "Host(`portainer-socket.moynihan.io`)"
       traefik.http.routers.portainer-socket.entrypoints: "web"
       traefik.http.services.portainer-socket-service.loadbalancer.server.port: "8000"
       traefik.http.routers.portainer-socket.service: "portainer-socket-service"
-      
+
       traefik.docker.network: "traefik"
+
+  stonks:
+    container_name: stonks
+    image: moynihan/stonks.icu
+    labels:
+      traefik.enable: "true"
+      traefik.http.routers.stonks.rule: "Host(`stonks.icu`)"
+      traefik.http.routers.stonks.entrypoints: "web"
+      traefik.http.services.stonks-service.loadbalancer.server.port: "8080"
+      traefik.http.routers.stonks.service: "stonks-service"
+      traefik.docker.network: "traefik"
+
 
   traefik:
     container_name: traefik
     image: traefik:v2.3
-    command: --api.insecure=true --providers.docker --entryPoints.web.address=:80 
+    command: --api.insecure=true --providers.docker --entryPoints.web.address=:80
     ports:
       - "80:80"
     volumes:
@@ -65,6 +77,6 @@ services:
 
       # middleware redirect
       traefik.http.middlewares.redirect-to-https.redirectscheme.scheme: "https"
-      
+
 volumes:
   portainer_data:
