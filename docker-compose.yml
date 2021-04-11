@@ -41,6 +41,9 @@ services:
   stonks:
     container_name: stonks
     image: moynihan/stonks.icu
+    environment:
+      - GEOLICENSE=${GEOLICENSE}
+    restart: always
     labels:
       traefik.enable: "true"
       traefik.http.routers.stonks.rule: "Host(`stonks.icu`)"
