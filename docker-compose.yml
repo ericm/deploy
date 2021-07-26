@@ -4,7 +4,7 @@ services:
   moynihan:
     container_name: "moynihan"
     image: moynihan/moynihan.io:latest
-    restart: unless-stopped
+    restart: always
     labels:
       traefik.enable: "true"
       traefik.http.routers.moynihan.rule: "Host(`moynihan.io`) || Host(`www.moynihan.io`)"
