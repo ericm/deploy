@@ -40,7 +40,7 @@ services:
 
   stonks:
     container_name: stonks
-    image: moynihan/stonks.icu
+    image: moynihan/stonks.icu:50e153cda5e139256a6beeb821edcf3264fd3c32
     environment:
       - GEOLICENSE=${GEOLICENSE}
       - PORT=1818
